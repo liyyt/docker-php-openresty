@@ -2,5 +2,5 @@ version: '3'
 
 services:
   php-fpm:
-    image: liyyt/php-fpm:latest
+    image: liyyt/php-openresty:latest
     build: .
