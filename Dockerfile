@@ -82,7 +82,8 @@ ENV PHP_EXT \
     mcrypt \
     opcache \
     pdo \
-    pdo_mysql
+    pdo_mysql \
+    mysqli
 
 RUN set -xe \
     && apk upgrade --update \
