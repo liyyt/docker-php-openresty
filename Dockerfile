@@ -1,9 +1,9 @@
-FROM php:5.6-fpm-alpine
-MAINTAINER Jethro Hicks <jethro@liyyt.com>
+FROM php:7.2-fpm-alpine
+LABEL maintainer="Jethro Hicks <jethro@liyyt.com>"
 
-ARG RESTY_VERSION="1.13.6.1"
+ARG RESTY_VERSION="1.13.6.2"
 ARG RESTY_OPENSSL_VERSION="1.0.2k"
-ARG RESTY_PCRE_VERSION="8.41"
+ARG RESTY_PCRE_VERSION="8.42"
 ARG RESTY_J="1"
 ARG RESTY_CONFIG_OPTIONS="\
     --with-file-aio \
