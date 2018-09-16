@@ -72,18 +72,20 @@ ENV PERSISTENT_DEPS \
     geoip \
     libgcc \
     libxslt \
-    zlib
+    zlib \
+    supervisor
 
 ENV PHP_EXT \
     gd \
     gettext \
     iconv \
     mbstring \
-    mcrypt \
+    # mcrypt \
     opcache \
     pdo \
     pdo_mysql \
-    mysqli
+    mysqli \
+    intl
 
 RUN set -xe \
     && apk upgrade --update \
@@ -92,8 +94,8 @@ RUN set -xe \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install $PHP_EXT
 
-RUN pecl install redis intl \
-    && docker-php-ext-enable redis intl \
+RUN pecl install redis \
+    && docker-php-ext-enable redis \
     && cd /tmp \
     && curl -fSL https://www.openssl.org/source/openssl-${RESTY_OPENSSL_VERSION}.tar.gz -o openssl-${RESTY_OPENSSL_VERSION}.tar.gz \
     && tar xzf openssl-${RESTY_OPENSSL_VERSION}.tar.gz \
@@ -115,18 +117,21 @@ RUN pecl install redis intl \
         openresty-${RESTY_VERSION}.tar.gz openresty-${RESTY_VERSION} \
         pcre-${RESTY_PCRE_VERSION}.tar.gz pcre-${RESTY_PCRE_VERSION} \
         /tmp/installer \
-
     && apk del .build-deps \
     && ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log \
-    && ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log
+    && ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log \
+    && mkdir -p /var/log/supervisor \
+    && mkdir -p /var/cache/nginx/microcache
 
 COPY config/php/php.development.ini /usr/local/etc/php/php.ini
 COPY config/php-fpm.d/docker.conf /usr/local/etc/php-fpm.d/docker.conf
 COPY config/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY config/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
+COPY config/nginx/includes /usr/local/openresty/nginx/conf/includes
 COPY config/nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY config/nginx/nginx.vh.default.conf /etc/nginx/conf.d/default.conf
+COPY config/supervisord.conf /etc/supervisord.conf
 
 # Add additional binaries into PATH for convenience
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
@@ -134,4 +139,4 @@ ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/
 
 EXPOSE 9000
 
-CMD ["/usr/local/openresty/bin/openresty", "-g", "daemon off;"]
+CMD ["supervisord", "-n", "-c", "/etc/supervisord.conf"]
