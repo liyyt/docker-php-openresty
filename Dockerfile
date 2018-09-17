@@ -1,5 +1,5 @@
 FROM php:7.2-fpm-alpine
-LABEL maintainer="Jethro Hicks <jethro@liyyt.com>"
+LABEL maintainer="Jethro Hicks <jethro@hicksinspace.com>"
 
 ARG RESTY_VERSION="1.13.6.2"
 ARG RESTY_OPENSSL_VERSION="1.0.2k"

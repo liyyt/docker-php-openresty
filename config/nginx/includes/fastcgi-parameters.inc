@@ -26,3 +26,6 @@ fastcgi_param   SERVER_PROTOCOL     $server_protocol;
 fastcgi_param   SERVER_SOFTWARE     nginx;
 fastcgi_param   SSL_CLIENT_VERIFY   $ssl_client_verify if_not_empty;
 fastcgi_param   SSL_SESSION_ID      $ssl_session_id if_not_empty;
+
+# Interesting read: https://httpoxy.org/#fix-now
+fastcgi_param HTTP_PROXY "";
