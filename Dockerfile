@@ -74,9 +74,11 @@ ENV PHP_EXTRA_CONFIGURE_ARGS \
     --with-fpm-group=www-data \
     --disable-cgi \
     --enable-opcache \
-    # --enable-opcache-jit \
+    --with-pcre-jit \
+    --with-webp \
     --with-zlib \
-    # --enable-zip \
+    --with-zip \
+    # --with-xsl \
     --enable-json \
     --enable-sockets
 
@@ -93,10 +95,9 @@ ENV PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 ENV GPG_KEYS 42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312
 
-ENV PHP_VERSION 7.4.0RC6
-ENV PHP_URL="https://downloads.php.net/~derick/php-7.4.0RC6.tar.xz" PHP_ASC_URL="https://downloads.php.net/~derick/php-7.4.0RC6.tar.xz.asc"
-ENV PHP_SHA256="" PHP_MD5=""
-
+ENV PHP_VERSION 7.4.0
+ENV PHP_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz" PHP_ASC_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz.asc"
+ENV PHP_SHA256="9bb751b20e5d6cc1ea9b1ebf23ef2d5f07f99b2d9cc417bf1d70c04f8b20ec42" PHP_MD5=""
 
 
 # dependencies required for running "phpize"
@@ -117,8 +118,10 @@ ENV BUILD_DEPS \
     libc-dev \
     libedit-dev \
     libsodium-dev \
+    libwebp-dev \
     libxml2-dev \
     libxslt-dev \
+    libzip-dev \
     linux-headers \
     make \
     oniguruma-dev \
@@ -147,7 +150,9 @@ ENV PERSISTENT_DEPS \
     gd \
     geoip \
     libgcc \
+    libwebp \
     libxslt \
+    libzip \
     zlib \
     supervisor
 
