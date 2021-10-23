@@ -149,7 +149,7 @@ RUN apt-get update && apt-get upgrade -y \
         xmlrpc \
         xsl \
         zip \
-    && pecl install xdebug && docker-php-ext-enable xdebug \
+    # && pecl install xdebug && docker-php-ext-enable xdebug \
     && pecl install redis && docker-php-ext-enable redis \
     && yes '' | pecl install imagick && docker-php-ext-enable imagick \
     && docker-php-source delete \
